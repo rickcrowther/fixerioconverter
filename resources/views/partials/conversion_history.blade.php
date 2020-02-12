@@ -19,19 +19,19 @@
                 <td class="text-center">
                     <div class="d-inline-flex align-items-centerpx-2 py-2 my-auto text-muted">
                         <i class="fas fa-pound-sign fa-2x fa-fw"></i>
-                        <h4 class="font-weight-semibold mb-0">{{$rates->GBP}}</h4>
+                        <h4 class="font-weight-semibold mb-0">{{isset($rates->GBP) ? $rates->GBP : 'N/A'}}</h4>
                     </div>
                 </td>
                 <td class="text-center">
                     <div class="d-inline-flex align-items-centerpx-2 py-2 my-auto text-muted">
                         <i class="fas fa-yen-sign fa-2x fa-fw"></i>
-                        <h4 class="font-weight-semibold mb-0">{{$rates->JPY}}</h4>
+                        <h4 class="font-weight-semibold mb-0">{{isset($rates->JPY) ? $rates->JPY : 'N/A'}}</h4>
                     </div>
                 </td>
                 <td class="text-center">
                     <div class="d-inline-flex align-items-centerpx-2 py-2 my-auto text-muted">
                         <i class="fas fa-dollar-sign fa-2x fa-fw"></i>
-                        <h4 class="font-weight-semibold mb-0">{{$rates->USD}}</h4>
+                        <h4 class="font-weight-semibold mb-0">{{isset($rates->USD) ? $rates->USD : 'N/A'}}</h4>
                     </div>
                 </td>
                 <td class="text-center">
