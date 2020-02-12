@@ -113,7 +113,6 @@
                 type:'GET',
                 url: url,
             }).done(function(data){
-                console.log('data', data);
                 $('div#conversion_history').prop("hidden", true);
                 $('div#conversion_history_loader').prop("hidden", false);
                 $('div#conversion_history').html(data);
