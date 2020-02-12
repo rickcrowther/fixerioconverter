@@ -1,4 +1,4 @@
-@if(!$responses->isEmpty())
+@if($responses->isNotEmpty())
     <table class="table table-striped">
         <thead>
         <tr class="bg-light rounded">

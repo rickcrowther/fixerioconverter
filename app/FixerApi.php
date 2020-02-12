@@ -42,12 +42,18 @@ class FixerApi
             return $this->handle_error($code);
         }
 
-        return $response;
+        $results = json_decode($response->getBody());
+
+        if($results->success == false){
+            return $this->handle_error($results->error->code);
+        }
+
+        return $results;
     }
 
     public function handle_error($code = 404)
     {
-        return redirect()->back()->with('error', 'There was a problem with your request, The API could not provide a response. Error Code: ' . $code);
+        return abort($code);
     }
 
 

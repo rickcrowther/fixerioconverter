@@ -13,9 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-
-Route::post('/birthday-fixer-rates', ['as'=>'api.get-rates', 'uses' => 'FixerAPIController@getBirthdayRates']);
-Route::post('/conversion-history', ['as'=>'api.get-history', 'uses' => 'FixerAPIController@getConversionHistory']);
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});

@@ -72,7 +72,7 @@
                 format: 'dd/mm/yyyy',
                 weekStart:1,
                 startDate:'-1Y +1D',
-                endDate: new Date(),
+                endDate: '-1D',
                 autoclose: true
             });
         });
@@ -86,51 +86,25 @@
                 type:'GET',
                 url: url,
             }).done(function(data){
-                console.log('data', data);
+                $('div#flash').prop("hidden", true);
                 $('span#birthday_date').html( moment(birthday,'DD/MM/YYYY').format('Do MMMM YYYY'))
                 // Set the Birthday Rates section
                 $('div#birthday_rates_card').prop("hidden", false);
                 $('div#birthday_rates_card_body').prop("hidden", true);
                 $('div#birthday_rates_loader').prop("hidden", false);
-                // Set the rates for currency then show the rates section
-                $.each( JSON.parse(data.rates.rates) , function( key, value ) {
-                    $('div#birthday_rates_card_body h4#'+key).html(value);
-                });
+                $('div#birthday_rates_card_body').html(data);
+                // // Set the rates for currency then show the rates section
+                // $.each( JSON.parse(data.rates.rates) , function( key, value ) {
+                //     $('div#birthday_rates_card_body h4#'+key).html(value);
+                // });
                 $('div#birthday_rates_loader').prop("hidden", true);
                 $('div#birthday_rates_card_body').prop("hidden", false);
                 getConversionHistory();
 
             }).fail(function(e) {
-                flash_error(e.status);
+                $('div#birthday_rates_card').prop("hidden", true);
+                flash_error(e.status, JSON.parse(e.responseText).message);
             });
-
-
-            {{--var url = '{{ route("api.get-rates") }}';--}}
-            {{--url = url.replace(':birthday', birthday_converted);--}}
-            {{--$.ajax({--}}
-            {{--    type:'POST',--}}
-            {{--    url: url,--}}
-            {{--    data: {--}}
-            {{--        birthday : birthday_converted--}}
-            {{--    }--}}
-            {{--}).done(function(data){--}}
-            {{--    console.log('data', data);--}}
-
-            {{--    // Set the Birthday Rates section--}}
-            {{--    $('div#birthday_rates_card').prop("hidden", false);--}}
-            {{--    $('div#birthday_rates_card_body').prop("hidden", true);--}}
-            {{--    $('div#birthday_rates_loader').prop("hidden", false);--}}
-            {{--    // Set the rates for currency then show the rates section--}}
-            {{--    $.each( data.rates , function( key, value ) {--}}
-            {{--        $('div#birthday_rates_card_body h4#'+key).html(value);--}}
-            {{--    });--}}
-            {{--    $('div#birthday_rates_loader').prop("hidden", true);--}}
-            {{--    $('div#birthday_rates_card_body').prop("hidden", false);--}}
-            {{--    getConversionHistory();--}}
-
-            {{--}).fail(function(e) {--}}
-            {{--    flash_error(e.status);--}}
-            {{--})--}}
         }
 
         function getConversionHistory(){
@@ -146,12 +120,12 @@
                 $('div#conversion_history_loader').prop("hidden", true);
                 $('div#conversion_history').prop("hidden", false);
             }).fail(function(e) {
-                flash_error(e.status);
+                flash_error(e.status, JSON.parse(e.responseText).message);
             })
         }
 
-        function flash_error(error_code){
-            $('div#flash span#error_message').html('There was a problem with your request, The API could not provide a response. Error Code:' + error_code);
+        function flash_error(error_code, error_message){
+            $('div#flash span#error_message').html('There was a problem with your request.' + error_message + '. Error Code:' + error_code);
             $('div#flash').prop("hidden", false);
             setTimeout(function() {
                 $('div#flash').prop("hidden", true);

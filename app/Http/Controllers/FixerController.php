@@ -21,7 +21,8 @@ class FixerController extends Controller
     {
         $responses = FixerResponse::orderBy('date', 'desc')->get();
         return view('index',[
-            'responses' => $responses
+            'responses' => $responses,
+            'rates' => []
         ]);
     }
 
@@ -31,12 +32,20 @@ class FixerController extends Controller
      * @return array
      *
      */
-    public function getConversionHistory()
+    public function getConversionHistory(Request $request)
     {
         $responses = FixerResponse::orderBy('date', 'desc')->get();
-        return view('partials.conversion_history',[
-            'responses' => $responses
-        ]);
+
+        if($request->ajax()) {
+            return view('partials.conversion_history', [
+                'responses' => $responses
+            ]);
+        } else {
+            return view('conversion_history', [
+                'responses' => $responses
+            ]);
+        }
+
     }
 
 
@@ -47,18 +56,18 @@ class FixerController extends Controller
      * @return array
      *
      */
-    public function getBirthdayRates($birthday)
+    public function getBirthdayRates(Request $request, $birthday)
     {
 
         if(!isset($birthday)){
-            return redirect()->back()->with('message', 'You must select a date.');
+            return abort(500);
         }
 
         // First of all, convert the $birthday variable into Carbon
         $birthday = Carbon::createFromFormat('Y-m-d', $birthday);
 
         if($birthday->gt(Carbon::yesterday()) || $birthday->lt(Carbon::today()->subYear())){
-            return redirect()->back()->with('message', 'You must select a date within the next year.');
+            $this->fixer_api->handle_error(500);
         }
 
         // Check if there is already a record in the database with that date
@@ -72,21 +81,26 @@ class FixerController extends Controller
 
             $response = $this->fixer_api->request('GET', $birthday->format('Y-m-d'));
 
-            $results = json_decode($response->getBody());
-
             $fixer_response = new FixerResponse();
 
             $rates = $fixer_response->create([
                 'date' => $birthday->format('Y-m-d'),
-                'base' => $results->base,
-                'rates' => json_encode($results->rates),
+                'base' => $response->base,
+                'rates' => json_encode($response->rates),
             ]);
 
         }
 
-        return [
-            'rates' => $rates,
-        ];
+        if($request->ajax()) {
+            return view('partials.birthday_rates', [
+                'rates' => $rates
+            ]);
+        } else {
+            return view('birthday_rates', [
+                'date' => $birthday->format('jS F Y'),
+                'rates' => $rates
+            ]);
+        }
     }
 
 }

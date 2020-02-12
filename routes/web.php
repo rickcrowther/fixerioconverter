@@ -12,5 +12,5 @@
 */
 
 Route::get('/', ['as'=>'home', 'uses' => 'FixerController@index']);
-Route::get('/getBirthdayFixerRates/{birthday}', ['as'=>'get-rates', 'uses' => 'FixerController@getBirthdayRates']);
-Route::get('/getConversionHistory/', ['as'=>'get-history', 'uses' => 'FixerController@getConversionHistory']);
+Route::get('/birthday-rates/{birthday}', ['as'=>'get-rates', 'uses' => 'FixerController@getBirthdayRates']);
+Route::get('/conversion-history/', ['as'=>'get-history', 'uses' => 'FixerController@getConversionHistory']);
