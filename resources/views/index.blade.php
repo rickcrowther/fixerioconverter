@@ -71,7 +71,7 @@
                 todayHighlight: false,
                 format: 'dd/mm/yyyy',
                 weekStart:1,
-                startDate:'-1Y +1D',
+                startDate:'-1Y',
                 endDate: '-1D',
                 autoclose: true
             });
