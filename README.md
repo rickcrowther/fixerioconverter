@@ -21,6 +21,8 @@ npm install
 
 npm run dev
 
+php artisan migrate
+
 Then the project should run from index of the project
 
 
