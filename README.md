@@ -1,3 +1,29 @@
+## Set Up
+
+You will need to do the following to get this project to work....
+
+create an .env file with thef following custom variables:
+
+FIXER_IO_BASE_URI (this should be http://data.fixer.io/api/)
+
+FIXER_IO_API_KEY (Your fixer.io API Key, if you don't have one then grab a free one from fixer.io)
+
+FIXER_IO_SYMBOL (The symbols you wish to use eg: "GBP, "JPY", USD") Please note for this demo I have only considered "GBP, "JPY", USD" so best to set as that
+
+You also need to create a database in MySQL/PostgreSQL and specify it as DB_DATABASE (eg: DB_DATABASE=fixer)
+
+
+Then run:
+
+composer install
+
+npm install
+
+npm run dev
+
+Then the project should run from index of the project
+
+
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
 <p align="center">
